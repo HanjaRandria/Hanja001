@@ -1,0 +1,98 @@
+fonction karnaugh_minimization()
+    // Création de la table de Karnaugh
+    k_map = [[0, 0, 0, 0],
+             [0, 0, 0, 0],
+             [0, 0, 0, 0]]
+
+    // Remplissage de la table avec les valeurs de la fonction
+    k_map[0][1] = 1  // ab
+    k_map[1][2] = 1  // !bc
+    k_map[2][0] = 1  // a!c
+
+    // Affichage de la table de Karnaugh
+    afficher("Table de Karnaugh:")
+    Pour chaque ligne dans k_map
+        afficher(ligne)
+
+    // Identification des groupes et termes communs
+    groupes = []
+    Pour i allant de 0 à 2
+        Pour j allant de 0 à 3
+            Si k_map[i][j] est égal à 1
+                groupe = [(i, j)]
+                k_map[i][j] = 0  // Marquer la case comme visitée
+                // Regroupement des cases adjacentes
+                Si j < 3 ET k_map[i][j+1] est égal à 1
+                    Ajouter (i, j+1) à groupe
+                    k_map[i][j+1] = 0
+                Si i < 2 ET k_map[i+1][j] est égal à 1
+                    Ajouter (i+1, j) à groupe
+                    k_map[i+1][j] = 0
+                Ajouter groupe à groupes
+
+    // Construction de l'expression minimisée
+    expression_minimisée = ""
+    Pour chaque groupe dans groupes
+        termes = []
+        Pour chaque cellule dans groupe
+            a = 'a' si cellule[0] est égal à 0 sinon '!a'
+            b = 'b' si cellule[1] est égal à 0 ou cellule[1] est égal à 1 sinon '!b'
+            c = 'c' si cellule[1] est égal à 0 ou cellule[1] est égal à 2 sinon '!c'
+            Ajouter a + b + c à termes
+        Ajouter "(" + rejoindre(terms, " + ") + ")" à expression_minimisée
+
+    afficher("Expression minimisée:", expression_minimisée)
+
+// Appel de la fonction pour minimiser l'expression
+karnaugh_minimization()
+
+         code sur python
+
+def karnaugh_minimization():
+    # Création de la table de Karnaugh
+    k_map = [[0, 0, 0, 0],
+             [0, 0, 0, 0],
+             [0, 0, 0, 0]]
+
+    # Remplissage de la table avec les valeurs de la fonction
+    k_map[0][1] = 1  # ab
+    k_map[1][2] = 1  # !bc
+    k_map[2][0] = 1  # a!c
+
+    # Affichage de la table de Karnaugh
+    print("Table de Karnaugh:")
+    for row in k_map:
+        print(row)
+
+    # Identification des groupes et termes communs
+    groups = []
+    for i in range(3):
+        for j in range(4):
+            if k_map[i][j] == 1:
+                group = [(i, j)]
+                k_map[i][j] = 0  # Marquer la case comme visitée
+                # Regroupement des cases adjacentes
+                if j < 3 and k_map[i][j+1] == 1:
+                    group.append((i, j+1))
+                    k_map[i][j+1] = 0
+                if i < 2 and k_map[i+1][j] == 1:
+                    group.append((i+1, j))
+                    k_map[i+1][j] = 0
+                groups.append(group)
+
+    # Construction de l'expression minimisée
+    minimized_expr = ""
+    for group in groups:
+        terms = []
+        for cell in group:
+            a = 'a' if cell[0] == 0 else '!a'
+            b = 'b' if cell[1] == 0 or cell[1] == 1 else '!b'
+            c = 'c' if cell[1] == 0 or cell[1] == 2 else '!c'
+            terms.append(a + b + c)
+        minimized_expr += "(" + " + ".join(terms) + ")"
+
+    print("Expression minimisée:", minimized_expr)
+
+
+# Appel de la fonction pour minimiser l'expression
+karnaugh_minimization()
